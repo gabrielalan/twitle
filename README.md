@@ -3,9 +3,13 @@ Twitle is a little Twitter made in PHP, with Silex and Doctrine.
 
 ## Install
 
+You can clone this repo, and follow the steps below.
+
 ### Install Composer
 ```
 curl -s https://getcomposer.org/installer | php
+
+php composer.phar install
 ```
 
 ### Database
