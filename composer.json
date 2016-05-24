@@ -1,0 +1,11 @@
+{
+	"name": "gabrielalan/twitle",
+    "description": "Twitle - A little php Twitter",
+    "minimum-stability": "dev",
+    "require": {
+        "silex/silex": "^2.0",
+		"doctrine/dbal": "^2.5",
+		"doctrine/orm": "^2.5",
+		"twig/twig": "^1.24"
+    }
+}
