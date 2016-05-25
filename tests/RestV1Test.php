@@ -68,7 +68,7 @@ class RestV1Test extends WebTestCase
 		$data = '{"text":"Test with correct value"}';
 
 		$client = $this->makeEntryRequest('POST', $data);
-		echo $client->getResponse()->getContent();
+
 		$this->assertTrue($client->getResponse()->isOk());
 		$this->assertJson($client->getResponse()->getContent());
 
@@ -85,7 +85,7 @@ class RestV1Test extends WebTestCase
 	public function testRestGetAllEntries()
 	{
 		$client = $this->makeEntryRequest('GET');
-echo $client->getResponse()->getContent();
+
 		$this->assertTrue($client->getResponse()->isOk());
 		$this->assertJson($client->getResponse()->getContent());
 
