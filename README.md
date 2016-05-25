@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/gabrielalan/twitle.svg?branch=master)](https://travis-ci.org/gabrielalan/twitle)
+
 # Twitle
 Twitle is a little Twitter made in PHP, with Silex and Doctrine.
 
