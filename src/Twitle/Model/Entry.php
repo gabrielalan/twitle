@@ -38,6 +38,6 @@ class Entry
 
 	public static function loadValidatorMetadata(ClassMetadata $metadata) {
 		$metadata->addPropertyConstraint('text', new Assert\NotBlank());
-		$metadata->addPropertyConstraint('text', new Assert\Length(['min' => 5]));
+		$metadata->addPropertyConstraint('text', new Assert\Length(['min' => 5, 'max' => 140]));
 	}
 }

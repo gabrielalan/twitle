@@ -8,33 +8,45 @@ use Twitle\Model\Entry;
 class Entries
 {
 	public function getAll(Application $app) {
-		$em = $app['entityManager'];
+		try {
+			$em = $app['entityManager'];
 
-		$q = $em->createQuery("select u from Twitle\Model\Entry u");
-    	$entries = $q->getResult();
-		
-		return $app->json($entries);
+			$q = $em->createQuery("select u.id, u.text from Twitle\Model\Entry u");
+			$entries = $q->getResult();
+
+			return $app->json($entries);
+		} catch( \Exception $exception ) {
+			return $app->json([$exception->getMessage()], 500);
+		}
 	}
 
 	public function save(Application $app, Request $request) {
-		$em = $app['entityManager'];
+		try {
+			$em = $app['entityManager'];
 
-		$entry = new Entry();
+			$entry = new Entry();
 
-		$entry->setText($request->get('text'));
+			$entry->setText($request->get('text'));
 
-		$errors = $app['validator']->validate($entry);
+			$errors = $app['validator']->validate($entry);
 
-		if (count($errors) > 0) {
-			$messages = [];
+			if (count($errors) > 0) {
+				$messages = [];
 
-			foreach ($errors as $error) {
-				$messages[] = [$error->getPropertyPath() => $error->getMessage()];
+				foreach ($errors as $error) {
+					$messages[] = [$error->getPropertyPath() => $error->getMessage()];
+				}
+
+				return $app->json($messages, 500);
 			}
 
-			return $app->json($messages, 500);
-		}
+			$em->persist($entry);
 
-		return $app->json(['id' => $entry->getId(), 'text' => $entry->getText()]);
+			$em->flush();
+
+			return $app->json(['id' => $entry->getId(), 'text' => $entry->getText()]);
+		} catch( \Exception $exception ) {
+			return $app->json([$exception->getMessage()], 500);
+		}
 	}
 }
