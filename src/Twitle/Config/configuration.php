@@ -2,11 +2,11 @@
 
 return array(
 	'db' => array(
-		'driver'  => 'pdo_pgsql',
+		'driver'  => 'pdo_mysql',
 		'host'    => 'localhost',
-		'port'    => '5432',
-		'user'    => 'postgres',
-		'password'  => '123456',
+		'port'    => '3306',
+		'user'    => 'root',
+		'password'  => '111111',
 		'dbname'  => 'twitle'
 	)
 );
