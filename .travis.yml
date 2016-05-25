@@ -7,3 +7,4 @@ services:
   - mysql
 before_script:
   - mysql -e 'create database twitle;' -uroot
+  - ./vendor/bin/doctrine orm:schema-tool:create
