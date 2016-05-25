@@ -10,8 +10,8 @@ class RestControllerProvider implements ControllerProviderInterface
     {
         $restV1 = $app['controllers_factory'];
 
-		$restV1->get('/', 'Twitle\Controller\Entries::getAll');
-		$restV1->post('/', 'Twitle\Controller\Entries::save');
+		$restV1->get('/entries', 'Twitle\Controller\Entries::getAll');
+		$restV1->post('/entries', 'Twitle\Controller\Entries::save');
 
         return $restV1;
     }

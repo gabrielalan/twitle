@@ -16,7 +16,7 @@ class RestV1Test extends WebTestCase
 	private function makeEntryRequest($method, $data = null) {
 		$client = $this->createClient();
 
-		$client->request($method, '/rest/v1/', [], [], ['CONTENT_TYPE' => 'application/json'], $data);
+		$client->request($method, '/rest/v1/entries', [], [], ['CONTENT_TYPE' => 'application/json'], $data);
 
 		return $client;
 	}
