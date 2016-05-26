@@ -18,22 +18,17 @@ class Middlewares {
 		return function(Request $request, Response $response) {
 			$statusCode = $response->getStatusCode();
 
+			if ($statusCode === 404 && !$controllerContent) {
+				return $response->setContent(json_encode(new Json([], ["Sorry, the page you are looking for could not be found."])));
+			}
+
 			$controllerContent = json_decode($response->getContent(), true);
 
-			$error = $statusCode >= 500;
-
-			if ($statusCode === 404 && !$controllerContent) {
-				$error = true;
-				$controllerContent = ["Sorry, the page you are looking for could not be found."];
+			if ($statusCode >= 500) {
+				return $response->setContent(json_encode(new Json([], $controllerContent)));
 			}
 
-			if ($error) {
-				$content = new Json([], $controllerContent, false);
-			} else {
-				$content = new Json($controllerContent);
-			}
-
-			$response->setContent(json_encode($content));
+			return $response->setContent(json_encode(new Json($controllerContent)));
 		};
 	}
 

@@ -9,10 +9,10 @@ class Entries
 {
 	public function getAll(Application $app) {
 		try {
-			$em = $app['entityManager'];
+			$entityManager = $app['entityManager'];
 
-			$q = $em->createQuery("select u.id, u.text from Twitle\Model\Entry u");
-			$entries = $q->getResult();
+			$query = $entityManager->createQuery("select u.id, u.text from Twitle\Model\Entry u");
+			$entries = $query->getResult();
 
 			return $app->json($entries);
 		} catch( \Exception $exception ) {
@@ -22,7 +22,7 @@ class Entries
 
 	public function save(Application $app, Request $request) {
 		try {
-			$em = $app['entityManager'];
+			$entityManager = $app['entityManager'];
 
 			$entry = new Entry();
 
@@ -40,9 +40,9 @@ class Entries
 				return $app->json($messages, 500);
 			}
 
-			$em->persist($entry);
+			$entityManager->persist($entry);
 
-			$em->flush();
+			$entityManager->flush();
 
 			return $app->json(['id' => $entry->getId(), 'text' => $entry->getText()]);
 		} catch( \Exception $exception ) {

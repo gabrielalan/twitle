@@ -10,9 +10,9 @@ class Json {
 
 	public $success = true;
 
-	public function __construct($result = [], array $errors = [], $success = true) {
+	public function __construct($result = [], array $errors = []) {
 		$this->result = $result;
 		$this->errors = $errors;
-		$this->success = $success;
+		$this->success = empty($errors);
 	}
 } 

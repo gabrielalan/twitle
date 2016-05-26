@@ -10,7 +10,7 @@ class EntityManagerProvider implements ServiceProviderInterface
 {
 	public function register(Container $app)
 	{
-		$app['entityManager'] = function ($name) use ($app) {
+		$app['entityManager'] = function () {
 			return Doctrine::getEntityManager(realpath(__DIR__ . '/../../../'));
 		};
 	}
