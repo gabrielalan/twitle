@@ -81,7 +81,7 @@ class RestV1Test extends WebTestCase
 		$this->assertArrayHasKey('errors', $jsonDecoded);
 
 		$this->assertTrue($jsonDecoded['success']);
-		$this->assertEquals('Geofrey', $jsonDecoded['result']['author']);
+		$this->assertEquals($data['author'], $jsonDecoded['result']['author']);
 		$this->assertEquals(0, count($jsonDecoded['errors']));
 
 		$clientDelete = $this->makeEntryRequest('DELETE', null, $jsonDecoded['result']['id']);
