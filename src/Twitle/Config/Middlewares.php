@@ -20,7 +20,14 @@ class Middlewares {
 
 			$controllerContent = json_decode($response->getContent(), true);
 
-			if ($statusCode >= 500) {
+			$error = $statusCode >= 500;
+
+			if ($statusCode === 404 && !$controllerContent) {
+				$error = true;
+				$controllerContent = ["Sorry, the page you are looking for could not be found."];
+			}
+
+			if ($error) {
 				$content = new Json([], $controllerContent, false);
 			} else {
 				$content = new Json($controllerContent);
