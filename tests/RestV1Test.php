@@ -67,9 +67,9 @@ class RestV1Test extends WebTestCase
 
 	public function testRestSaveAndDeleteEntryOk()
 	{
-		$data = '{"text":"Test with correct value"}';
+		$data = ["author" => "Geofrey", "text" => "Test with correct value"];
 
-		$client = $this->makeEntryRequest('POST', $data);
+		$client = $this->makeEntryRequest('POST', json_encode($data, true));
 
 		$this->assertTrue($client->getResponse()->isOk());
 		$this->assertJson($client->getResponse()->getContent());
@@ -81,6 +81,7 @@ class RestV1Test extends WebTestCase
 		$this->assertArrayHasKey('errors', $jsonDecoded);
 
 		$this->assertTrue($jsonDecoded['success']);
+		$this->assertEquals('Geofrey', $jsonDecoded['result']['author']);
 		$this->assertEquals(0, count($jsonDecoded['errors']));
 
 		$clientDelete = $this->makeEntryRequest('DELETE', null, $jsonDecoded['result']['id']);

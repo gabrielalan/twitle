@@ -11,7 +11,7 @@ class Entries
 		try {
 			$entityManager = $app['entityManager'];
 
-			$query = $entityManager->createQuery("select u.id, u.text from Twitle\Model\Entry u");
+			$query = $entityManager->createQuery("select u.id, u.author, u.text from Twitle\Model\Entry u");
 			$entries = $query->getResult();
 
 			return $app->json($entries);
@@ -46,6 +46,10 @@ class Entries
 
 			$entry->setText($request->get('text'));
 
+			$author = $request->get('author');
+
+			$entry->setAuthor($author ?: 'Unknown');
+
 			$errors = $app['validator']->validate($entry);
 
 			if (count($errors) > 0) {
@@ -62,7 +66,7 @@ class Entries
 
 			$entityManager->flush();
 
-			return $app->json(['id' => $entry->getId(), 'text' => $entry->getText()]);
+			return $app->json(['id' => $entry->getId(), 'author' => $entry->getAuthor(), 'text' => $entry->getText()]);
 		} catch( \Exception $exception ) {
 			return $app->json([$exception->getMessage()], 500);
 		}

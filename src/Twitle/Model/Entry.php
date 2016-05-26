@@ -23,6 +23,20 @@ class Entry
 	 * @var string
 	 */
 	public $text;
+	/**
+	 * @ORM\Column(type="string", length=150, nullable=true)
+	 *
+	 * @var string
+	 */
+	public $author;
+
+	public function getAuthor() {
+		return $this->author;
+	}
+	
+	public function setAuthor($author) {
+		return $this->author = filter_var($author, FILTER_SANITIZE_STRING);
+	}
 
 	public function getText() {
 		return $this->text;
