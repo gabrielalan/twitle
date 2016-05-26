@@ -20,6 +20,24 @@ class Entries
 		}
 	}
 
+	public function delete(Application $app, $id) {
+		try {
+			$entityManager = $app['entityManager'];
+
+			$entity = $entityManager->getRepository('Twitle\Model\Entry')->find($id);
+
+			if (!$entity)
+				throw new \Exception('Entity not found');
+
+			$entityManager->remove($entity);
+			$entityManager->flush();
+
+			return $app->json(true);
+		} catch( \Exception $exception ) {
+			return $app->json([$exception->getMessage()], 500);
+		}
+	}
+
 	public function save(Application $app, Request $request) {
 		try {
 			$entityManager = $app['entityManager'];

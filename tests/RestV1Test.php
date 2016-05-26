@@ -13,10 +13,12 @@ class RestV1Test extends WebTestCase
 		return $app;
 	}
 
-	private function makeEntryRequest($method, $data = null) {
+	private function makeEntryRequest($method, $data = null, $id = null) {
 		$client = $this->createClient();
 
-		$client->request($method, '/rest/v1/entries', [], [], ['CONTENT_TYPE' => 'application/json'], $data);
+		$uriId = $id ? '/' . $id : '';
+
+		$client->request($method, '/rest/v1/entries' . $uriId, [], [], ['CONTENT_TYPE' => 'application/json'], $data);
 
 		return $client;
 	}
@@ -63,7 +65,7 @@ class RestV1Test extends WebTestCase
 		$this->assertEquals('This value is too short. It should have 5 characters or more.', $jsonDecoded['errors'][0]['text']);
 	}
 
-	public function testRestSaveEntryOk()
+	public function testRestSaveAndDeleteEntryOk()
 	{
 		$data = '{"text":"Test with correct value"}';
 
@@ -80,6 +82,21 @@ class RestV1Test extends WebTestCase
 
 		$this->assertTrue($jsonDecoded['success']);
 		$this->assertEquals(0, count($jsonDecoded['errors']));
+
+		$clientDelete = $this->makeEntryRequest('DELETE', null, $jsonDecoded['result']['id']);
+
+		$this->assertTrue($clientDelete->getResponse()->isOk());
+		$this->assertJson($clientDelete->getResponse()->getContent());
+
+		$jsonDeleteDecoded = json_decode($clientDelete->getResponse()->getContent(), true);
+
+		$this->assertArrayHasKey('result', $jsonDeleteDecoded);
+		$this->assertArrayHasKey('success', $jsonDeleteDecoded);
+		$this->assertArrayHasKey('errors', $jsonDeleteDecoded);
+
+		$this->assertTrue($jsonDeleteDecoded['success']);
+		$this->assertTrue($jsonDeleteDecoded['result']);
+		$this->assertEquals(0, count($jsonDeleteDecoded['errors']));
 	}
 
 	public function testRestGetAllEntries()
