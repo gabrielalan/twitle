@@ -37,7 +37,53 @@ To run the app, use the PHP Built In Server passing index.php as the router:
 php -S localhost:8888 index.php
 ```
 
-## Run on Docker
+# The API
+
+## `GET` /rest/v1/entries
+Return all added entries
+
+### Responses
+
+Code | Description | Schema
+---- | ----------- | --------
+200 | Success | `{"result":	[Entry, ...], "errors":	[], "success": true}`
+500 | An error ocurred | `{"result":	[], "errors":	[Error, ...], "success": false}`
+
+## `POST` /rest/v1/entries
+Add an entry to the system
+
+### Parameters
+
+Name | Located in | Description | Required | Schema
+---- | ---------- | ----------- | -------- | ------
+Data | Body | Entry data | Yes | `{"author":"Name", "text":"Text for twitle"}`
+
+### Responses
+
+Code | Description | Schema
+---- | ----------- | --------
+200 | Success added | `{"result":	Entry {}, "errors":	[], "success": true}`
+500 | An error ocurred | `{"result": [], "errors":	[Error, ...], "success": false}`
+
+## `DELETE` /rest/v1/entries/{id}
+Remove an entry of the system
+
+### Parameters
+
+Name | Located in | Description | Required | Schema
+---- | ---------- | ----------- | -------- | ------
+Id | URI | Entry id | Yes | `/{number}`
+
+### Responses
+
+Code | Description | Schema
+---- | ----------- | --------
+200 | Success removed | `{"result":	true, "errors":	[], "success": true}`
+500 | An error ocurred | `{"result": [], "errors":	[Error, ...], "success": false}`
+
+# Run on Docker
+
+**If you don't want to have difficults editing the `configuration.php` to put your db data, this is not recommended. You'll need to install vi or vim to edit the file, and take sure that your database is accessible by the container.**
 
 Its possible run the app on docker container too, **but you need to configure database connection on `src/Twitle/Config/configuration.php` inside the container yet** pointing to your server.
 
